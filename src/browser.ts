@@ -49,8 +49,20 @@ export class BrowserClient {
   constructor() {}
 
   async launch(options?: LaunchOptions): Promise<void> {
+    // 检查浏览器是否已连接，如果已断开则重新启动
     if (this.browser) {
-      return;
+      try {
+        // 尝试获取浏览器进程信息来检测是否仍然连接
+        const isConnected = this.browser.isConnected();
+        if (isConnected) {
+          return;
+        }
+        // 浏览器已断开，清理资源
+        await this.close();
+      } catch (error) {
+        // 浏览器可能已经断开，清理资源
+        await this.close();
+      }
     }
 
     // 设置用户数据目录，用于保存cookie、localStorage等数据
@@ -105,7 +117,14 @@ export class BrowserClient {
     if (!page) {
       throw new Error('No active page');
     }
-    return page;
+    
+    // 检查页面是否仍然连接
+    if (!page.isClosed()) {
+      return page;
+    }
+    
+    // 页面已关闭，抛出错误
+    throw new Error('Current page is closed. Please navigate to a new URL.');
   }
 
   async navigate(url: string): Promise<void> {
