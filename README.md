@@ -88,26 +88,50 @@ vim ~/.cursor/mcp.json
 
 ### Claude Code
 
-编辑 MCP 配置文件：
+Claude Code 的 MCP 配置存储在 `~/.claude.json` 文件中，并且是**按项目分别配置**的。
+
+**当前项目自动配置：**
+
+当你在 `mcp-cursor-ide-browser` 项目目录下使用 Claude Code 时，该项目会自动配置浏览器 MCP，无需手动配置。
+
+**在其他项目中使用：**
+
+如需在其他项目中使用此浏览器 MCP，有两种方式：
+
+**方式一：通过 Claude Code 交互式配置**
+
+在其他项目目录中，可以通过 Claude Code 的 `/config` 或类似命令添加 MCP 服务器。
+
+**方式二：手动编辑 ~/.claude.json**
 
 ```bash
-# 编辑 Claude Code MCP 配置
-vim ~/.claude/mcp.json
+# 编辑 Claude Code 配置文件
+vim ~/.claude.json
 ```
 
-**配置内容：**
+在对应项目的 `mcpServers` 字段中添加配置：
+
 ```json
 {
-  "mcpServers": {
-    "browser": {
-      "command": "node",
-      "args": ["/home/lpsadmin/work/mcp-cursor-ide-browser/dist/index.js"]
+  "projects": {
+    "/你的/项目/路径": {
+      "mcpServers": {
+        "browser": {
+          "type": "stdio",
+          "command": "node",
+          "args": ["/home/lpsadmin/work/mcp-cursor-ide-browser/dist/index.js"],
+          "env": {}
+        }
+      }
     }
   }
 }
 ```
 
-配置完成后重启 Claude Code。
+**注意：**
+- 配置文件位置是 `~/.claude.json`（不是 `~/.claude/mcp.json`）
+- MCP 服务器配置在对应项目的 `mcpServers` 字段下
+- 配置完成后无需重启，新配置会自动生效
 
 ---
 
