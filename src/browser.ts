@@ -1,4 +1,6 @@
 import puppeteer, { Browser, Page, ConsoleMessage, HTTPRequest, LaunchOptions, KeyInput } from 'puppeteer';
+import * as path from 'path';
+import * as os from 'os';
 
 export interface BrowserSnapshot {
   title: string;
@@ -51,10 +53,14 @@ export class BrowserClient {
       return;
     }
 
+    // 设置用户数据目录，用于保存cookie、localStorage等数据
+    const userDataDir = options?.userDataDir ?? path.join(os.homedir(), '.mcp-browser-data');
+
     this.browser = await puppeteer.launch({
-      headless: options?.headless ?? true,
+      headless: options?.headless ?? false,
       defaultViewport: options?.defaultViewport ?? { width: 1280, height: 720 },
       args: options?.args ?? ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
+      userDataDir: userDataDir,
     });
 
     const page = await this.browser.newPage();
