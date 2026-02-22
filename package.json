@@ -1,7 +1,7 @@
 {
   "name": "mcp-cursor-ide-browser",
   "version": "1.0.0",
-  "description": "Browser automation MCP server - compatible with Trae, Cursor IDE, Claude Code, and other MCP-enabled tools",
+  "description": "Browser automation MCP server - compatible with Claude Code, and other MCP-enabled tools",
   "type": "module",
   "main": "dist/index.js",
   "bin": {

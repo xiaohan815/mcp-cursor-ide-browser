@@ -1,6 +1,6 @@
 # MCP Browser Server
 
-浏览器自动化 MCP 服务器 - 兼容 Trae、Cursor IDE、Claude Code 及其他支持 MCP 协议的工具。
+浏览器自动化 MCP 服务器 - 兼容Claude Code 及其他支持 MCP 协议的工具。
 
 ## 功能特性
 
@@ -27,113 +27,6 @@ npm install
 npm run build
 ```
 
-## 配置方法
-
-### Trae IDE
-
-编辑 MCP 配置文件：
-
-**方式一：全局配置**
-```bash
-# 编辑全局配置文件
-vim ~/.trae/mcp.json
-```
-
-**方式二：项目配置**
-```bash
-# 在项目根目录创建配置文件
-vim .trae/mcp.json
-```
-
-**配置内容：**
-```json
-{
-  "mcpServers": {
-    "browser": {
-      "command": "node",
-      "args": ["/home/lpsadmin/work/mcp-cursor-ide-browser/dist/index.js"]
-    }
-  }
-}
-```
-
-配置完成后重启 Trae IDE。
-
----
-
-### Cursor IDE
-
-编辑 MCP 配置文件：
-
-```bash
-# 编辑 Cursor MCP 配置
-vim ~/.cursor/mcp.json
-```
-
-**配置内容：**
-```json
-{
-  "mcpServers": {
-    "browser": {
-      "command": "node",
-      "args": ["/home/lpsadmin/work/mcp-cursor-ide-browser/dist/index.js"]
-    }
-  }
-}
-```
-
-配置完成后重启 Cursor IDE。
-
----
-
-### Claude Code
-
-Claude Code 的 MCP 配置存储在 `~/.claude.json` 文件中，并且是**按项目分别配置**的。
-
-**当前项目自动配置：**
-
-当你在 `mcp-cursor-ide-browser` 项目目录下使用 Claude Code 时，该项目会自动配置浏览器 MCP，无需手动配置。
-
-**在其他项目中使用：**
-
-如需在其他项目中使用此浏览器 MCP，有两种方式：
-
-**方式一：通过 Claude Code 交互式配置**
-
-在其他项目目录中，可以通过 Claude Code 的 `/config` 或类似命令添加 MCP 服务器。
-
-**方式二：手动编辑 ~/.claude.json**
-
-```bash
-# 编辑 Claude Code 配置文件
-vim ~/.claude.json
-```
-
-在对应项目的 `mcpServers` 字段中添加配置：
-
-```json
-{
-  "projects": {
-    "/你的/项目/路径": {
-      "mcpServers": {
-        "browser": {
-          "type": "stdio",
-          "command": "node",
-          "args": ["/home/lpsadmin/work/mcp-cursor-ide-browser/dist/index.js"],
-          "env": {}
-        }
-      }
-    }
-  }
-}
-```
-
-**注意：**
-- 配置文件位置是 `~/.claude.json`（不是 `~/.claude/mcp.json`）
-- MCP 服务器配置在对应项目的 `mcpServers` 字段下
-- 配置完成后无需重启，新配置会自动生效
-
----
 
 ## 工具使用示例
 
